@@ -7,4 +7,4 @@ def print_matrix_integer(matrix=[[]]):
             print()
         for i in range(len(sub)):
             print("{:d}".format(sun[i]),
-                        end="\n" if i is len(sub) - 1 else " ")
+                    end="\n" if i is len(sub) - 1 else " ")
