@@ -5,11 +5,10 @@
  */
 
 class Rectangle {
-  constructor(w, h) {
-    this.width = w;
-    this.height = h;
-  }
+	constructor(w, h) {
+		this.width = w;
+		this.height = h;
+	}
 }
-
 // Export the Rectangle class to make it available for import in other modules
 module.exports = Rectangle;
