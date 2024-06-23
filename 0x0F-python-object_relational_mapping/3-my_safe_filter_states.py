@@ -1,19 +1,22 @@
 #!/usr/bin/python3
 """
-This script lists all states from the database hbtn_0e_0_usa.
+This script takes in an argument and displays all values in the states table
+of hbtn_0e_0_usa where name matches the argument in a safe way to prevent SQL injection.
 """
 
 import sys
 import MySQLdb
 
-def list_states(username, password, dbname):
+def filter_states_by_name(username, password, dbname, state_name):
     """
-    Connects to a MySQL database and lists all states in ascending order by states.id.
+    Connects to a MySQL database and lists all states with a name matching the argument
+    in ascending order by states.id, safely preventing SQL injection.
 
     Args:
         username (str): MySQL username
         password (str): MySQL password
         dbname (str): Database name
+        state_name (str): State name to search for
     """
     # Connect to MySQL server
     db = MySQLdb.connect(
@@ -27,8 +30,9 @@ def list_states(username, password, dbname):
     # Create a cursor object to execute queries
     cursor = db.cursor()
 
-    # Execute the query to retrieve all states sorted by id
-    cursor.execute("SELECT id, name FROM states ORDER BY id ASC")
+    # Execute the query to retrieve states with the matching name safely using parameterized query
+    query = "SELECT id, name FROM states WHERE name = %s ORDER BY id ASC"
+    cursor.execute(query, (state_name,))
 
     # Fetch all the rows from the executed query
     states = cursor.fetchall()
@@ -46,6 +50,7 @@ if __name__ == "__main__":
     username = sys.argv[1]
     password = sys.argv[2]
     dbname = sys.argv[3]
+    state_name = sys.argv[4]
 
-    # List all states from the database
-    list_states(username, password, dbname)
+    # Filter and list states by name
+    filter_states_by_name(username, password, dbname, state_name)

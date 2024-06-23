@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """
-This script lists all states from the database hbtn_0e_0_usa.
+This script lists all cities from the database hbtn_0e_4_usa.
 """
 
 import sys
 import MySQLdb
 
-def list_states(username, password, dbname):
+def list_cities(username, password, dbname):
     """
-    Connects to a MySQL database and lists all states in ascending order by states.id.
+    Connects to a MySQL database and lists all cities in ascending order by cities.id.
 
     Args:
         username (str): MySQL username
@@ -27,15 +27,21 @@ def list_states(username, password, dbname):
     # Create a cursor object to execute queries
     cursor = db.cursor()
 
-    # Execute the query to retrieve all states sorted by id
-    cursor.execute("SELECT id, name FROM states ORDER BY id ASC")
+    # Execute the query to retrieve all cities in ascending order by cities.id
+    query = """
+    SELECT cities.id, cities.name, states.name
+    FROM cities
+    JOIN states ON cities.state_id = states.id
+    ORDER BY cities.id ASC
+    """
+    cursor.execute(query)
 
     # Fetch all the rows from the executed query
-    states = cursor.fetchall()
+    cities = cursor.fetchall()
 
     # Print the results
-    for state in states:
-        print(state)
+    for city in cities:
+        print(city)
 
     # Close the cursor and database connection
     cursor.close()
@@ -47,5 +53,5 @@ if __name__ == "__main__":
     password = sys.argv[2]
     dbname = sys.argv[3]
 
-    # List all states from the database
-    list_states(username, password, dbname)
+    # List cities
+    list_cities(username, password, dbname)
